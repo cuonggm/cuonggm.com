@@ -57,6 +57,7 @@ const StyledLeftList = styled(StyledList)`
 
 // Drawer
 const StyledRightList = styled(StyledList)`
+  z-index: 10;
   flex-direction: row;
 
   @media (max-width: ${breakPoints.small}) {
