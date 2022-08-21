@@ -26,6 +26,7 @@ const StyledNavigationBar = styled.div`
   padding: 0 16px;
   gap: 16px;
   justify-content: space-between;
+  z-index: 1000;
 `;
 
 const StyledPanel = styled.div`
