@@ -1,33 +1,23 @@
-// import './App.css';
-import styled from "styled-components";
-import {NavigationBar} from "./components/NavigationBar";
-import {BrowserRouter} from "react-router-dom";
-import {color} from "./const";
-import {TextField} from "./components/TextField";
+import {BrowserRouter, Route, Switch} from "react-router-dom";
+import {Container, styled} from "@mui/material";
+import {Login} from "./pages/Login";
 
-const StyledApp = styled.div`
-  margin-top: 0;
-  padding-top: 0;
+const StyledContainer = styled(Container)`
+  width: 100vw;
   height: 100vh;
-  background-color: ${color.background};
-  z-index: 0;
+  background-color: white;
+  padding: 0 16px;
 `;
-
-/*
-* Navigation Links Setup
-* */
-const navLinks = [{
-    label: "Notes", to: "/notes",
-}, {
-    label: "Create note", to: "/createNote",
-}];
 
 const App = () => {
     return (<BrowserRouter>
-        <StyledApp>
-            <NavigationBar links={navLinks} isLoggedIn={true}/>
-            <TextField/>
-        </StyledApp>
+        <StyledContainer maxWidth={"md"}>
+            <Switch>
+                <Route path={"/login"}>
+                    <Login/>
+                </Route>
+            </Switch>
+        </StyledContainer>
     </BrowserRouter>);
 }
 
