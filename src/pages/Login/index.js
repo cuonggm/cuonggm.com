@@ -1,5 +1,7 @@
 import {Button, Stack, styled, TextField, Typography} from "@mui/material";
-import Grid2 from "@mui/material/Unstable_Grid2";
+import {useContext, useState} from "react";
+import {loadLoggedUserFromLocalStorage, login, signUp} from "./login-api";
+import AuthContext from "../../contexts/auth-context";
 
 const StyledContainer = styled(Stack)`
   margin: 0;
@@ -16,24 +18,59 @@ const StyledTextField = styled(TextField)`
 
 const StyledButton = styled(Button)`
   width: 304px;
-  height: 56px;
+  //height: 56px;
 `;
 
 export const Login = (props) => {
-    return <StyledContainer container direction={"column"} alignItems={"center"}>
 
+    const authContext = useContext(AuthContext)
+
+    const [username, setUsername] = useState("");
+    const onUsernameChange = (event) => {
+        setUsername(state => {
+            return event.target.value;
+        })
+    }
+
+    const [password, setPassword] = useState("");
+    const onPasswordChange = (event) => {
+        setPassword(state => {
+            return event.target.value;
+        })
+    }
+
+    const onLoginClick = async (event) => {
+        const data = await login(username, password)
+        const loggedUser = loadLoggedUserFromLocalStorage();
+        if (loggedUser !== null) {
+            authContext.setLoggedUser(data);
+        }
+    }
+
+    const onSignUpClick = async () => {
+        const data = await signUp(username, password)
+        console.log(data)
+    }
+
+    return <StyledContainer direction={"column"} alignItems={"center"}>
         <StyledLoginContainer direction={"column"} justifyContent={"center"} alignItems={"center"} spacing={2}
-               width={"fit-content"}>
+                              width={"fit-content"}>
             <Typography textAlign={"center"} variant="h3" gutterBottom>
                 Login
             </Typography>
             <StyledTextField variant={"filled"}
                              label={"Username"}
-                             required/>
-            <StyledTextField variant={"filled"} label={"Password"}
-                             required/>
-            <StyledButton variant="contained">Login</StyledButton>
+                             required
+                             defaultValue={username}
+                             onChange={onUsernameChange}/>
+            <StyledTextField type={"password"}
+                             variant={"filled"} label={"Password"}
+                             required
+                             defaultValue={password}
+                             onChange={onPasswordChange}/>
+            <StyledButton variant="contained" onClick={onLoginClick}>Login</StyledButton>
+            <StyledButton variant="outlined" onClick={onSignUpClick}>Sign Up</StyledButton>
         </StyledLoginContainer>
-
     </StyledContainer>
+
 }

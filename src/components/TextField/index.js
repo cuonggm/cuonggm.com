@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {color} from "../../const";
+import {color} from "../../const/const";
 
 const Container = styled.div`
   z-index: 1;

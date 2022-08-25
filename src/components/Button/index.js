@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {color, fontSize} from "../../const";
+import {color, fontSize} from "../../const/const";
 
 const StyledButton = styled.button`
   height: 40px;

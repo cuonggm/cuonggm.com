@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {breakPoints, color, fontSize} from "../../const";
+import {breakPoints, color, fontSize} from "../../const/const";
 import {Button, LightButton} from "../Button";
 import {Link as StandardLink} from "../Link";
 import logo from "../../icons/icons8-pig-100.png"
