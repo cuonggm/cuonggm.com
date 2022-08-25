@@ -14,9 +14,13 @@ const StyledContainer = styled(Container)`
 `;
 
 const App = () => {
+    const isLoggedIn = () => {
+        return localStorage.getItem("idToken") !== null
+    }
+
     const setLoggedUserStateFunction = (user) => {
         setLoggedUserState(state => {
-            console.log(user)
+
             return {
                 ...state,
                 loggedUser: user
@@ -25,17 +29,7 @@ const App = () => {
     }
 
     const [loggedUserState, setLoggedUserState] = useState({
-        loggedUser: {
-            kind: "",
-            localId: "",
-            email: "",
-            displayName: "",
-            idToken: "",
-            registered: "",
-            refreshToken: "",
-            expiresIn: "",
-            remain: ""
-        },
+        loggedUser: null,
         setLoggedUser: setLoggedUserStateFunction
     });
 
@@ -44,16 +38,16 @@ const App = () => {
         const loadedLoggedUser = loadLoggedUserFromLocalStorage();
         if (loadedLoggedUser !== null) {
             setLoggedUserStateFunction(loadedLoggedUser)
+        } else {
+            setLoggedUserStateFunction(null);
         }
     }, [])
-
-    console.log(loggedUserState.loggedUser.idToken)
     return (<BrowserRouter>
         <AuthContext.Provider value={loggedUserState}>
             <StyledContainer maxWidth={"md"}>
                 <Switch>
                     <Route path={"/login"}>
-                        {loggedUserState.loggedUser.idToken === null ? <Login/> : <Redirect to={"/"}/>}
+                        {!isLoggedIn() ? <Login/> : <Redirect to={"/"}/>}
                     </Route>
                     <Route path={"/refreshToken"}>
                         <RefreshToken/>

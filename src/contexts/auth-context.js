@@ -1,6 +1,9 @@
 import React from "react";
 
-const defaultValue = {}
+const defaultValue = {
+    loggedUser: null,
+    setLoggedUser: () => {}
+}
 
 const AuthContext = React.createContext(defaultValue)
 

@@ -66,6 +66,9 @@ export const refreshToken = async (refreshToken) => {
 * Private functions
 * */
 export const saveLoggedUserToLocalStorage = (user) => {
+    console.log("saveLoggedUserToLocalStorage")
+    console.log(user);
+    console.log("----------")
     localStorage.setItem("kind", user.kind)
     localStorage.setItem("localId", user.localId)
     localStorage.setItem("email", user.email)
@@ -90,7 +93,7 @@ export const clearLoggedUserFromLocalStorage = (user) => {
 }
 
 export const loadLoggedUserFromLocalStorage = () => {
-    if(localStorage.getItem("idToken") === undefined) {
+    if(localStorage.getItem("idToken") === null) {
         return null;
     }
     return {
