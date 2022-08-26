@@ -35,7 +35,7 @@ export const login = async (username, password) => {
     });
     const data = await res.json();
     if (!res.ok) {
-        throw new Error("Login Username or password wrong: " + username + ", " + password)
+        throw new Error("LoginScreen Username or password wrong: " + username + ", " + password)
     }
     saveLoggedUserToLocalStorage(data);
     return data;
@@ -66,9 +66,6 @@ export const refreshToken = async (refreshToken) => {
 * Private functions
 * */
 export const saveLoggedUserToLocalStorage = (user) => {
-    console.log("saveLoggedUserToLocalStorage")
-    console.log(user);
-    console.log("----------")
     localStorage.setItem("kind", user.kind)
     localStorage.setItem("localId", user.localId)
     localStorage.setItem("email", user.email)

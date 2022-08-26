@@ -1,6 +1,7 @@
 import {Button, Stack, styled, TextField, Typography} from "@mui/material";
 import {useContext, useState} from "react";
 import {loadLoggedUserFromLocalStorage, login, signUp} from "./login-api";
+import NotificationContext from "../../contexts/notification-context";
 import AuthContext from "../../contexts/auth-context";
 
 const StyledContainer = styled(Stack)`
@@ -22,9 +23,13 @@ const StyledButton = styled(Button)`
 `;
 
 export const Login = (props) => {
-
+    // Get authContext
     const authContext = useContext(AuthContext)
 
+    // Get notificationContext
+    const notificationContext = useContext(NotificationContext)
+
+    // Hold state of Username Textfield
     const [username, setUsername] = useState("");
     const onUsernameChange = (event) => {
         setUsername(state => {
@@ -32,6 +37,7 @@ export const Login = (props) => {
         })
     }
 
+    // Hold state of Password Textfield
     const [password, setPassword] = useState("");
     const onPasswordChange = (event) => {
         setPassword(state => {
@@ -39,19 +45,36 @@ export const Login = (props) => {
         })
     }
 
+    // Event Click Login Button
     const onLoginClick = async (event) => {
-        const data = await login(username, password)
-        const loggedUser = loadLoggedUserFromLocalStorage();
-        if (loggedUser !== null) {
-            authContext.setLoggedUser(data);
-        }
+        login(username, password)
+            .then(data => {
+                const loggedUser = loadLoggedUserFromLocalStorage();
+                if (loggedUser !== null) {
+                    authContext.setLoggedUser(data);
+                    notificationContext.setNotification({
+                        open: true,
+                        message: "Logging in successfully"
+                    })
+                }
+            })
+            .catch(error => {
+                notificationContext.setNotification({
+                    open: true,
+                    message: "Logging in failed"
+                })
+            })
+
+
     }
 
+    // Event Click Sign Up Button
     const onSignUpClick = async () => {
         const data = await signUp(username, password)
         console.log(data)
     }
 
+    // Render Component
     return <StyledContainer direction={"column"} alignItems={"center"}>
         <StyledLoginContainer direction={"column"} justifyContent={"center"} alignItems={"center"} spacing={2}
                               width={"fit-content"}>
